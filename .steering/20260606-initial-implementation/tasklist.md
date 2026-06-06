@@ -23,9 +23,9 @@
 
 ## Phase 3: サービス層実装
 
-- [ ] 3-1. `VideoRepository.swift` を実装する（`load()` / `save()`）
-- [ ] 3-2. `VideoRepositoryTests.swift` を実装する（CRUD操作の確認）
-- [ ] 3-3. `NotificationService.swift` を実装する（権限要求・スケジュール・状態確認）
+- [x] 3-1. `VideoRepository.swift` を実装する（`load()` / `save()`）
+- [x] 3-2. `VideoRepositoryTests.swift` を実装する（CRUD操作の確認）
+- [x] 3-3. `NotificationService.swift` を実装する（権限要求・スケジュール・状態確認）
 
 ## Phase 4: ViewModel実装
 
