@@ -29,8 +29,8 @@
 
 ## Phase 4: ViewModel実装
 
-- [ ] 4-1. `VideoListViewModel.swift` を実装する（`addVideo` / `deleteVideo` / `moveVideo`）
-- [ ] 4-2. `SettingsViewModel.swift` を実装する（`saveSettings` / `requestAuthorization`）
+- [x] 4-1. `VideoListViewModel.swift` を実装する（`addVideo` / `deleteVideo` / `moveVideo`）
+- [x] 4-2. `SettingsViewModel.swift` を実装する（`saveSettings` / `requestAuthorization`）
 
 ## Phase 5: View実装
 
