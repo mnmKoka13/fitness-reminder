@@ -48,6 +48,7 @@ struct VideoListView: View {
             }
             .navigationTitle("運動リマインダー")
             .toolbar {
+                #if os(iOS)
                 ToolbarItem(placement: .topBarLeading) {
                     if !viewModel.videoItems.isEmpty {
                         EditButton()
@@ -60,6 +61,7 @@ struct VideoListView: View {
                         Image(systemName: "gearshape")
                     }
                 }
+                #endif
             }
             .sheet(isPresented: $viewModel.isShowingAddVideo) {
                 AddVideoView(viewModel: viewModel)

@@ -10,8 +10,10 @@ struct AddVideoView: View {
                 Section {
                     TextField("URLを貼り付け", text: $urlText)
                         .autocorrectionDisabled()
+                        #if os(iOS)
                         .textInputAutocapitalization(.never)
                         .keyboardType(.URL)
+                        #endif
                 } footer: {
                     if let error = viewModel.addVideoErrorMessage {
                         Text(error)
@@ -23,15 +25,14 @@ struct AddVideoView: View {
                 }
             }
             .navigationTitle("動画を追加")
-            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
+                ToolbarItem(placement: .cancellationAction) {
                     Button("キャンセル") {
                         viewModel.addVideoErrorMessage = nil
                         viewModel.isShowingAddVideo = false
                     }
                 }
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem(placement: .confirmationAction) {
                     Button("保存") {
                         viewModel.addVideo(url: urlText)
                     }
