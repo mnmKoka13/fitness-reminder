@@ -8,18 +8,18 @@
 
 ## Phase 1: Xcodeプロジェクトセットアップ
 
-- [ ] 1-1. Xcodeで新規プロジェクトを作成する（App テンプレート、SwiftUI、Swift）
-- [ ] 1-2. Bundle Identifier を設定する（例：`com.kokado.FitnessReminder`）
-- [ ] 1-3. Deployment Target を iOS 17.0 に設定する
-- [ ] 1-4. ディレクトリ構造を作成する（Models / ViewModels / Views / Services / Utilities）
-- [ ] 1-5. `Info.plist` に通知関連の設定を確認する（UserNotifications は特別なキー不要）
+- [x] 1-1. Xcodeで新規プロジェクトを作成する（App テンプレート、SwiftUI、Swift）
+- [x] 1-2. Bundle Identifier を設定する（例：`com.kokado.FitnessReminder`）
+- [x] 1-3. Deployment Target を iOS 17.0 に設定する
+- [x] 1-4. ディレクトリ構造を作成する（Models / ViewModels / Views / Services / Utilities）
+- [x] 1-5. `Info.plist` に通知関連の設定を確認する（UserNotifications は特別なキー不要）
 
 ## Phase 2: モデル・ユーティリティ実装
 
-- [ ] 2-1. `VideoItem.swift` を実装する（`Identifiable`, `Codable`）
-- [ ] 2-2. `AppSettings.swift` を実装する（`Codable`、デフォルト7:00）
-- [ ] 2-3. `URLValidator.swift` を実装する（Instagram / YouTube ドメイン判定）
-- [ ] 2-4. `URLValidatorTests.swift` を実装する（有効・無効URLのパターン網羅）
+- [x] 2-1. `VideoItem.swift` を実装する（`Identifiable`, `Codable`）
+- [x] 2-2. `AppSettings.swift` を実装する（`Codable`、デフォルト7:00）
+- [x] 2-3. `URLValidator.swift` を実装する（Instagram / YouTube ドメイン判定）
+- [x] 2-4. `URLValidatorTests.swift` を実装する（有効・無効URLのパターン網羅）
 
 ## Phase 3: サービス層実装
 
