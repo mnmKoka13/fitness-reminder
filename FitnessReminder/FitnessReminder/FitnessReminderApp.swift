@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct FitnessReminderApp: App {
+    @State private var videoListViewModel = VideoListViewModel()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            VideoListView(viewModel: videoListViewModel)
         }
     }
 }

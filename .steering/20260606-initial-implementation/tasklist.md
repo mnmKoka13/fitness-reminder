@@ -34,10 +34,10 @@
 
 ## Phase 5: View実装
 
-- [ ] 5-1. `VideoListView.swift` を実装する（リスト表示・空状態・FAB・歯車ボタン）
-- [ ] 5-2. `AddVideoView.swift` を実装する（URL入力・バリデーション表示・保存）
-- [ ] 5-3. `SettingsView.swift` を実装する（時刻ピッカー・通知許可ボタン）
-- [ ] 5-4. `FitnessReminderApp.swift` を修正する（エントリーポイントの調整）
+- [x] 5-1. `VideoListView.swift` を実装する（リスト表示・空状態・FAB・歯車ボタン）
+- [x] 5-2. `AddVideoView.swift` を実装する（URL入力・バリデーション表示・保存）
+- [x] 5-3. `SettingsView.swift` を実装する（時刻ピッカー・通知許可ボタン）
+- [x] 5-4. `FitnessReminderApp.swift` を修正する（エントリーポイントの調整）
 
 ## Phase 6: 結合確認
 
