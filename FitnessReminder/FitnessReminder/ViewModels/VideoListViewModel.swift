@@ -7,6 +7,7 @@ final class VideoListViewModel {
     var isShowingAddVideo = false
     var isShowingSettings = false
     var addVideoErrorMessage: String? = nil
+    var videoOpenedAt: Date? = nil
 
     private let repository: VideoRepository
     private let validator = URLValidator.self

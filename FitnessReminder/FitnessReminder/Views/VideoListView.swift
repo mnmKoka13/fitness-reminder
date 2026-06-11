@@ -18,6 +18,7 @@ struct VideoListView: View {
                         ForEach(viewModel.videoItems) { item in
                             Button {
                                 if let url = URL(string: item.url) {
+                                    viewModel.videoOpenedAt = Date()
                                     openURL(url)
                                 }
                             } label: {
