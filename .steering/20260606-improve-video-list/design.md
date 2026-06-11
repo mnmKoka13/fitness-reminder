@@ -126,3 +126,12 @@ func addVideo(url: String) async {
 
 - `VideoItem` の `Codable` 構造変更により、既存の UserDefaults データは新フィールドが `nil` として読み込まれる（後方互換あり）
 - `VideoListViewModel.addVideo` が `async` になるため、呼び出し元の `AddVideoView` で `Task { }` が必要
+
+## 追加修正：HTMLエンティティのデコード
+
+YouTube oEmbed や Instagram OGP のタイトルには HTML エンティティが含まれる場合がある（例：`&#26085;` → `日`、`&amp;` → `&`）。`VideoMetadataFetcher` に `decodeHTMLEntities` メソッドを追加し、タイトル取得後に適用する。
+
+対応するエンティティ形式：
+- 名前付き：`&amp;` `&lt;` `&gt;` `&quot;` `&#39;` `&apos;`
+- 数値（10進数）：`&#NNNN;`
+- 数値（16進数）：`&#xNNNN;`

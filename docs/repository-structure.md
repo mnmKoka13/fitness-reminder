@@ -30,10 +30,12 @@ fitness-reminder/
     │   │   └── SettingsViewModel.swift
     │   ├── Views/
     │   │   ├── VideoListView.swift
+    │   │   ├── VideoRowView.swift
     │   │   ├── AddVideoView.swift
     │   │   └── SettingsView.swift
     │   ├── Services/
     │   │   ├── VideoRepository.swift
+    │   │   ├── VideoMetadataFetcher.swift
     │   │   └── NotificationService.swift
     │   ├── Utilities/
     │   │   └── URLValidator.swift

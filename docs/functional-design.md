@@ -41,16 +41,18 @@ graph TD
 │ ≡  運動リマインダー  ⚙️  │  ← ナビゲーションバー
 ├────────────────────────┤
 │ ┌──────────────────┐   │
-│ │ 🎬 https://www.i │   │  ← 動画セル（URLのドメイン表示）
-│ │    nstagram.com/ │   │
+│ │ ┌────┐ 動画タイトル│   │  ← 動画セル（サムネイル + タイトル）
+│ │ │    │ youtube.com│   │
+│ │ └────┘           │   │
 │ └──────────────────┘   │
 │ ┌──────────────────┐   │
-│ │ 🎬 https://www.y │   │
-│ │    outu.be/...   │   │
+│ │ ┌────┐ 動画タイトル│   │
+│ │ │    │ instagram. │   │
+│ │ └────┘ com       │   │
 │ └──────────────────┘   │
-│                        │
-│                        │
-│         ＋             │  ← 追加ボタン（右下 FAB）
+│  動画は最大10件まで     │  ← 上限到達時のみ表示
+│  登録できます           │
+│         ＋             │  ← 追加ボタン（右下 FAB、上限時グレー）
 └────────────────────────┘
 ```
 
@@ -58,6 +60,7 @@ graph TD
 - セルを左スワイプ → 削除ボタン表示
 - セルを長押しドラッグ → 並び替え
 - ⚙️ タップ → 設定画面へ
+- 10件登録済みの場合 → FAB がグレーになりタップ不可、上限メッセージを表示
 
 ### 動画追加画面（AddVideoView）
 
@@ -111,6 +114,8 @@ erDiagram
         String url
         Int order
         Date createdAt
+        String title
+        Data thumbnailData
     }
 
     AppSettings {
@@ -127,6 +132,8 @@ erDiagram
 | url | String | Instagram / YouTube の動画URL |
 | order | Int | 表示順（0始まり） |
 | createdAt | Date | 登録日時 |
+| title | String? | 動画タイトル（URL登録時に自動取得、失敗時は nil） |
+| thumbnailData | Data? | サムネイル画像データ（URL登録時に自動取得、失敗時は nil） |
 
 ### AppSettings
 
@@ -151,11 +158,13 @@ View（SwiftUI）
 | コンポーネント | 責務 |
 |---------------|------|
 | `VideoListView` | 動画リストの表示・操作UI |
+| `VideoRowView` | 動画セルのUI（サムネイル・タイトル・ドメイン表示） |
 | `AddVideoView` | URL入力・バリデーション・追加UI |
 | `SettingsView` | 通知時刻の設定UI |
 | `VideoListViewModel` | リスト操作のビジネスロジック |
 | `SettingsViewModel` | 設定操作のビジネスロジック |
 | `VideoRepository` | UserDefaultsへの永続化 |
+| `VideoMetadataFetcher` | YouTube oEmbed・Instagram OGP によるタイトル・サムネイル取得 |
 | `NotificationService` | UNUserNotificationCenterの管理 |
 | `URLValidator` | Instagram / YouTube URLのバリデーション |
 
@@ -177,8 +186,26 @@ View（SwiftUI）
 - 通知本文：「今日も動画を見ながら運動しよう！」
 - 通知タップ時：アプリが起動し動画リスト画面を表示
 
+## 動画メタデータ取得仕様
+
+URL登録時に `VideoMetadataFetcher` がタイトルとサムネイルを1回だけ取得し、`VideoItem` に保存する。以降はオフラインで表示する。
+
+| プラットフォーム | 取得方法 | 失敗時の表示 |
+|----------------|---------|------------|
+| YouTube | oEmbed API（`https://www.youtube.com/oembed?url=...&format=json`）でタイトルと `thumbnail_url` を取得 | 再生ボタンアイコン |
+| Instagram | HTML の OGP メタタグ（`og:title`、`og:image`）を解析 | カメラアイコン |
+
+- タイトルに含まれる HTML エンティティ（`&amp;`、`&#26085;` 等）は取得後にデコードする
+- サムネイルは `Data` として保存（最大10件 × 約20KB = 約200KB、UserDefaults の許容範囲内）
+
+## 動画登録上限仕様
+
+- 最大登録件数：10件
+- 上限到達時：FAB をグレー表示・タップ無効化し、リスト下部に「動画は最大10件まで登録できます」を表示
+
 ## 永続化仕様
 
 - `VideoItem` の配列を `UserDefaults` に JSON エンコードして保存
 - `AppSettings` も `UserDefaults` に保存
 - キー名：`videoItems`、`notificationHour`、`notificationMinute`
+- `VideoItem` に新フィールドを追加した場合、既存データは新フィールドが `nil` として読み込まれる（後方互換あり）
