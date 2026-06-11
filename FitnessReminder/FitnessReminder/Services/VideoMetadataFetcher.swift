@@ -45,7 +45,7 @@ final class VideoMetadataFetcher {
         return try? await URLSession.shared.data(from: url).0
     }
 
-    private func decodeHTMLEntities(_ string: String) -> String {
+    func decodeHTMLEntities(_ string: String) -> String {
         guard string.contains("&") else { return string }
         var result = string
         for (entity, char) in [("&amp;", "&"), ("&lt;", "<"), ("&gt;", ">"), ("&quot;", "\""), ("&#39;", "'"), ("&apos;", "'")] {

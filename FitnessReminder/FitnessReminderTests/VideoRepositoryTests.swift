@@ -54,4 +54,23 @@ struct VideoRepositoryTests {
 
         #expect(repo.load().isEmpty)
     }
+
+    @Test func test_load_legacyDataWithoutMetadata_returnsItemsWithNilFields() throws {
+        let suiteName = UUID().uuidString
+        let defaults = UserDefaults(suiteName: suiteName)!
+
+        // title・thumbnailData が存在しない旧フォーマットの JSON
+        let legacyJSON = """
+        [{"id":"00000000-0000-0000-0000-000000000001","url":"https://youtu.be/abc","order":0,"createdAt":0}]
+        """
+        defaults.set(legacyJSON.data(using: .utf8), forKey: "videoItems")
+
+        let repo = VideoRepository(defaults: defaults)
+        let loaded = repo.load()
+
+        #expect(loaded.count == 1)
+        #expect(loaded[0].url == "https://youtu.be/abc")
+        #expect(loaded[0].title == nil)
+        #expect(loaded[0].thumbnailData == nil)
+    }
 }
