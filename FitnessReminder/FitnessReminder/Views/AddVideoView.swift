@@ -34,7 +34,7 @@ struct AddVideoView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("保存") {
-                        viewModel.addVideo(url: urlText)
+                        Task { await viewModel.addVideo(url: urlText) }
                     }
                     .disabled(urlText.isEmpty)
                 }

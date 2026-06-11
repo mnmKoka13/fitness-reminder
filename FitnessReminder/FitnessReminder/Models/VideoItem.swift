@@ -5,6 +5,8 @@ struct VideoItem: Identifiable, Codable {
     var url: String
     var order: Int
     let createdAt: Date
+    var title: String?
+    var thumbnailData: Data?
 
     init(url: String, order: Int) {
         self.id = UUID()

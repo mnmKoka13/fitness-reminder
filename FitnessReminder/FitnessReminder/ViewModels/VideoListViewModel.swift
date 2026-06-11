@@ -16,7 +16,10 @@ final class VideoListViewModel {
         self.videoItems = repository.load()
     }
 
-    func addVideo(url: String) {
+    var isAtLimit: Bool { videoItems.count >= 10 }
+
+    func addVideo(url: String) async {
+        guard !isAtLimit else { return }
         guard validator.isValid(url) else {
             addVideoErrorMessage = "Instagram または YouTube の URL を入力してください"
             return
@@ -26,6 +29,14 @@ final class VideoListViewModel {
         videoItems.append(newItem)
         save()
         isShowingAddVideo = false
+
+        let fetcher = VideoMetadataFetcher()
+        if let metadata = await fetcher.fetch(urlString: url),
+           let index = videoItems.firstIndex(where: { $0.id == newItem.id }) {
+            videoItems[index].title = metadata.title
+            videoItems[index].thumbnailData = metadata.thumbnailData
+            save()
+        }
     }
 
     func deleteVideo(at offsets: IndexSet) {
