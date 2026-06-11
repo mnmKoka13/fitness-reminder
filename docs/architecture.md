@@ -20,6 +20,7 @@ graph TD
         UI[SwiftUI Views]
         VM[ViewModels]
         REPO[VideoRepository]
+        LOGREPO[WorkoutLogRepository]
         NS[NotificationService]
         VAL[URLValidator]
     end
@@ -36,9 +37,11 @@ graph TD
 
     UI --> VM
     VM --> REPO
+    VM --> LOGREPO
     VM --> NS
     VM --> VAL
     REPO --> UD
+    LOGREPO --> UD
     NS --> UNF
     UI -->|openURL| IG
     UI -->|openURL| YT
@@ -51,16 +54,21 @@ FitnessReminder/
 ├── FitnessReminderApp.swift       # アプリエントリーポイント
 ├── Models/
 │   ├── VideoItem.swift            # 動画データモデル
-│   └── AppSettings.swift         # 設定データモデル
+│   ├── AppSettings.swift         # 設定データモデル
+│   └── WorkoutLog.swift          # 運動ログデータモデル
 ├── ViewModels/
 │   ├── VideoListViewModel.swift   # 動画リストのロジック
-│   └── SettingsViewModel.swift    # 設定のロジック
+│   ├── SettingsViewModel.swift    # 設定のロジック
+│   └── WorkoutLogViewModel.swift  # ログ・カレンダーのロジック
 ├── Views/
 │   ├── VideoListView.swift        # 動画リスト画面
 │   ├── AddVideoView.swift         # 動画追加画面
-│   └── SettingsView.swift         # 設定画面
+│   ├── SettingsView.swift         # 設定画面
+│   ├── WorkoutLogView.swift       # ログ・カレンダー画面
+│   └── WorkoutCompletionPopup.swift # 運動完了確認ポップアップ
 ├── Services/
-│   ├── VideoRepository.swift      # UserDefaults永続化
+│   ├── VideoRepository.swift      # UserDefaults永続化（動画）
+│   ├── WorkoutLogRepository.swift # UserDefaults永続化（ログ）
 │   └── NotificationService.swift  # ローカル通知管理
 └── Utilities/
     └── URLValidator.swift         # URLバリデーション
