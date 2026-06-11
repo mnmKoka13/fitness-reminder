@@ -5,26 +5,31 @@ struct FitnessReminderApp: App {
     @State private var videoListViewModel = VideoListViewModel()
     @State private var workoutLogViewModel = WorkoutLogViewModel()
     @State private var isShowingCompletionPopup = false
+    @State private var isShowingSplash = true
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
         WindowGroup {
-            TabView {
-                VideoListView(viewModel: videoListViewModel)
-                    .tabItem {
-                        Label("動画", systemImage: "play.rectangle")
+            if isShowingSplash {
+                SplashView { isShowingSplash = false }
+            } else {
+                TabView {
+                    VideoListView(viewModel: videoListViewModel)
+                        .tabItem {
+                            Label("動画", systemImage: "play.rectangle")
+                        }
+                    WorkoutLogView(viewModel: workoutLogViewModel)
+                        .tabItem {
+                            Label("ログ", systemImage: "calendar")
+                        }
+                }
+                .sheet(isPresented: $isShowingCompletionPopup) {
+                    WorkoutCompletionPopup {
+                        workoutLogViewModel.logToday()
+                        isShowingCompletionPopup = false
+                    } onDismiss: {
+                        isShowingCompletionPopup = false
                     }
-                WorkoutLogView(viewModel: workoutLogViewModel)
-                    .tabItem {
-                        Label("ログ", systemImage: "calendar")
-                    }
-            }
-            .sheet(isPresented: $isShowingCompletionPopup) {
-                WorkoutCompletionPopup {
-                    workoutLogViewModel.logToday()
-                    isShowingCompletionPopup = false
-                } onDismiss: {
-                    isShowingCompletionPopup = false
                 }
             }
         }
