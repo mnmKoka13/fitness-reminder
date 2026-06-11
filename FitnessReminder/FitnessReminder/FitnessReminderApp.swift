@@ -16,11 +16,11 @@ struct FitnessReminderApp: App {
                 TabView {
                     VideoListView(viewModel: videoListViewModel)
                         .tabItem {
-                            Label("動画", systemImage: "play.rectangle")
+                            Label("お気に入り動画一覧", systemImage: "play.rectangle")
                         }
                     WorkoutLogView(viewModel: workoutLogViewModel)
                         .tabItem {
-                            Label("ログ", systemImage: "calendar")
+                            Label("運動ログ", systemImage: "calendar")
                         }
                 }
                 .sheet(isPresented: $isShowingCompletionPopup) {
