@@ -21,14 +21,19 @@ struct VideoListView: View {
                                     openURL(url)
                                 }
                             } label: {
-                                Label(item.url, systemImage: videoIcon(for: item.url))
-                                    .lineLimit(1)
-                                    .truncationMode(.middle)
+                                VideoRowView(item: item)
                             }
                             .foregroundStyle(.primary)
                         }
                         .onDelete(perform: viewModel.deleteVideo)
                         .onMove(perform: viewModel.moveVideo)
+                        if viewModel.isAtLimit {
+                            Text("動画は最大10件まで登録できます")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .listRowBackground(Color.clear)
+                        }
                     }
                 }
 
@@ -39,10 +44,11 @@ struct VideoListView: View {
                         .font(.title2.bold())
                         .foregroundStyle(.white)
                         .frame(width: 56, height: 56)
-                        .background(.blue)
+                        .background(viewModel.isAtLimit ? Color.gray : Color.blue)
                         .clipShape(Circle())
                         .shadow(radius: 4)
                 }
+                .disabled(viewModel.isAtLimit)
                 .padding(.trailing, 24)
                 .padding(.bottom, 32)
             }
@@ -70,11 +76,5 @@ struct VideoListView: View {
                 SettingsView()
             }
         }
-    }
-
-    private func videoIcon(for url: String) -> String {
-        if url.contains("instagram.com") { return "camera.fill" }
-        if url.contains("youtube.com") || url.contains("youtu.be") { return "play.rectangle.fill" }
-        return "link"
     }
 }
