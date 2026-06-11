@@ -25,7 +25,7 @@ struct WorkoutLogView: View {
 
                 Spacer()
             }
-            .navigationTitle("ログ")
+            .navigationTitle("運動ログ")
             .alert("記録を削除しますか？", isPresented: $viewModel.isShowingDeleteConfirm) {
                 Button("削除", role: .destructive) {
                     if let ds = viewModel.dateToDelete {

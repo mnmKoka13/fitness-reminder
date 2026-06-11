@@ -53,7 +53,7 @@ struct VideoListView: View {
                 .padding(.trailing, 24)
                 .padding(.bottom, 32)
             }
-            .navigationTitle("運動リマインダー")
+            .navigationTitle("お気に入り動画一覧")
             .toolbar {
                 #if os(iOS)
                 ToolbarItem(placement: .topBarLeading) {

@@ -16,7 +16,7 @@ struct FitnessReminderApp: App {
                 TabView {
                     VideoListView(viewModel: videoListViewModel)
                         .tabItem {
-                            Label("お気に入り動画一覧", systemImage: "play.rectangle")
+                            Label("動画一覧", systemImage: "play.rectangle")
                         }
                     WorkoutLogView(viewModel: workoutLogViewModel)
                         .tabItem {
