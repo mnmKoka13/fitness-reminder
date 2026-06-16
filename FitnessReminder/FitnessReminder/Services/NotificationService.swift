@@ -5,7 +5,7 @@ final class NotificationService {
     private let center = UNUserNotificationCenter.current()
 
     func requestAuthorization() async -> Bool {
-        (try? await center.requestAuthorization(options: [.alert, .sound])) ?? false
+        (try? await center.requestAuthorization(options: [.alert, .sound, .badge])) ?? false
     }
 
     func isAuthorized() async -> Bool {
@@ -26,6 +26,7 @@ final class NotificationService {
         content.title = "運動の時間です 💪"
         content.body = "今日も動画を見ながら運動しよう！"
         content.sound = .default
+        content.badge = 1
 
         let request = UNNotificationRequest(
             identifier: notificationID,
