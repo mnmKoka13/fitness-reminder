@@ -5,13 +5,13 @@
 ### T1. WorkoutCompletionPopup に称賛機能を追加
 **ファイル：** `FitnessReminder/Views/WorkoutCompletionPopup.swift`
 
-- [ ] `isCompleted: Bool` の `@State` を追加
-- [ ] `praiseMessage: String` の `@State` を追加（称賛メッセージ配列をランダム選択）
-- [ ] 称賛メッセージ配列（6パターン）を `private static let` で定義
-- [ ] `body` の表示を `isCompleted` で分岐（確認UI / 称賛UI）
-- [ ] 「やった！」タップ時：`praiseMessage` をセット → `isCompleted = true` → `Task.sleep(2秒)` → `onComplete()`
-- [ ] 称賛UI：トロフィーアイコン（`trophy.fill`、ゴールド）＋メッセージ＋「閉じる」ボタン
-- [ ] `#Preview` が壊れていないことを確認
+- [x] `isCompleted: Bool` の `@State` を追加
+- [x] `praiseMessage: String` の `@State` を追加（称賛メッセージ配列をランダム選択）
+- [x] 称賛メッセージ配列（6パターン）を `private static let` で定義
+- [x] `body` の表示を `isCompleted` で分岐（確認UI / 称賛UI）
+- [x] 「やった！」タップ時：`praiseMessage` をセット → `isCompleted = true` → `Task.sleep(2秒)` → `onComplete()`
+- [x] 称賛UI：トロフィーアイコン（`trophy.fill`、ゴールド）＋メッセージ＋「閉じる」ボタン
+- [x] `#Preview` が壊れていないことを確認
 
 ## 完了条件
 
