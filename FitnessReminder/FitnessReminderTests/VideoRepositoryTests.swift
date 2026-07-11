@@ -16,7 +16,7 @@ struct VideoRepositoryTests {
 
     @Test func test_saveAndLoad_persistsItems() {
         let repo = makeRepository()
-        let item = VideoItem(url: "https://www.youtube.com/watch?v=abc", order: 0)
+        let item = VideoItem(url: "https://www.youtube.com/watch?v=abc", order: 0, folderId: UUID())
         repo.save([item])
 
         let loaded = repo.load()
@@ -26,10 +26,11 @@ struct VideoRepositoryTests {
 
     @Test func test_load_returnsSortedByOrder() {
         let repo = makeRepository()
+        let folderId = UUID()
         let items = [
-            VideoItem(url: "https://youtu.be/c", order: 2),
-            VideoItem(url: "https://youtu.be/a", order: 0),
-            VideoItem(url: "https://youtu.be/b", order: 1)
+            VideoItem(url: "https://youtu.be/c", order: 2, folderId: folderId),
+            VideoItem(url: "https://youtu.be/a", order: 0, folderId: folderId),
+            VideoItem(url: "https://youtu.be/b", order: 1, folderId: folderId)
         ]
         repo.save(items)
 
@@ -39,8 +40,9 @@ struct VideoRepositoryTests {
 
     @Test func test_save_overwritesPreviousData() {
         let repo = makeRepository()
-        repo.save([VideoItem(url: "https://youtu.be/old", order: 0)])
-        repo.save([VideoItem(url: "https://youtu.be/new", order: 0)])
+        let folderId = UUID()
+        repo.save([VideoItem(url: "https://youtu.be/old", order: 0, folderId: folderId)])
+        repo.save([VideoItem(url: "https://youtu.be/new", order: 0, folderId: folderId)])
 
         let loaded = repo.load()
         #expect(loaded.count == 1)
@@ -49,7 +51,7 @@ struct VideoRepositoryTests {
 
     @Test func test_save_emptyArray_clearsItems() {
         let repo = makeRepository()
-        repo.save([VideoItem(url: "https://youtu.be/abc", order: 0)])
+        repo.save([VideoItem(url: "https://youtu.be/abc", order: 0, folderId: UUID())])
         repo.save([])
 
         #expect(repo.load().isEmpty)
@@ -72,5 +74,22 @@ struct VideoRepositoryTests {
         #expect(loaded[0].url == "https://youtu.be/abc")
         #expect(loaded[0].title == nil)
         #expect(loaded[0].thumbnailData == nil)
+    }
+
+    @Test func test_load_legacyDataWithoutFolderId_returnsItemsWithNilFolderId() throws {
+        let suiteName = UUID().uuidString
+        let defaults = UserDefaults(suiteName: suiteName)!
+
+        // folderId が存在しない旧フォーマットの JSON
+        let legacyJSON = """
+        [{"id":"00000000-0000-0000-0000-000000000001","url":"https://youtu.be/abc","order":0,"createdAt":0}]
+        """
+        defaults.set(legacyJSON.data(using: .utf8), forKey: "videoItems")
+
+        let repo = VideoRepository(defaults: defaults)
+        let loaded = repo.load()
+
+        #expect(loaded.count == 1)
+        #expect(loaded[0].folderId == nil)
     }
 }
