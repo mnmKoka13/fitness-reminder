@@ -7,11 +7,13 @@ struct VideoItem: Identifiable, Codable {
     let createdAt: Date
     var title: String?
     var thumbnailData: Data?
+    var folderId: UUID?
 
-    init(url: String, order: Int) {
+    init(url: String, order: Int, folderId: UUID) {
         self.id = UUID()
         self.url = url
         self.order = order
         self.createdAt = Date()
+        self.folderId = folderId
     }
 }
